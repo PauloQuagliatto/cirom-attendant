@@ -1,0 +1,84 @@
+{
+  "name": "cirom",
+  "private": true,
+  "version": "0.0.0",
+  "main": "electron.js",
+  "description": "Electron-React App para fins do advogado Paulo Felix",
+  "author": "Paulo Miranda Quagliatto",
+  "homepage": "./",
+  "build": {
+    "productName": "Acompanhador de Processos",
+    "appId": "acompanhamento.de.processos",
+    "files": [
+      "./dist/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 430,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "icon": "assets/icon.png",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "AppImage"
+      ],
+      "category": "Development"
+    },
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "make:win": "electron-builder --win --x64",
+    "dev": "concurrently \"electron .\" \"cross-env npm run start\""
+  },
+  "dependencies": {
+    "@react-pdf/renderer": "^2.1.1",
+    "@supabase/supabase-js": "^1.30.6",
+    "file-saver": "^2.0.5",
+    "moment": "^2.29.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
+    "react-toastify": "^8.2.0",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@vitejs/plugin-react": "^1.0.7",
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^17.1.0",
+    "electron-builder": "^22.14.13",
+    "electron-is-dev": "^2.0.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0",
+    "wait-on": "^6.0.1"
+  }
+}
