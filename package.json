@@ -53,7 +53,7 @@
     }
   },
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "make:win": "electron-builder --win --x64",
@@ -66,6 +66,7 @@
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
     "react-router-dom": "^6.2.1",
     "react-toastify": "^8.2.0",
     "styled-components": "^5.3.3"
@@ -73,6 +74,7 @@
   "devDependencies": {
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/styled-components": "^5.1.23",
     "@vitejs/plugin-react": "^1.0.7",
     "electron": "^17.1.0",
     "electron-builder": "^22.14.13",
