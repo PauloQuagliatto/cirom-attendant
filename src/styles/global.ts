@@ -17,6 +17,10 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Poppins';  
     }
 
+    input, label, textarea, select, option, li, button {
+        font-family: 'Poppins';
+    }
+
     button{
         cursor: pointer;
 

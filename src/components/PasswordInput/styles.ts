@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -22,6 +22,8 @@ const Container = styled.div`
   }
 
   .button {
+    display: flex;
+    justify-content: center;
     margin: 0.4rem;
     cursor: pointer;
   }

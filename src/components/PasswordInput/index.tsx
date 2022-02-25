@@ -21,7 +21,11 @@ const PasswordInput = ({ password, setPassword }: IProps) => {
         className="button"
         onClick={() => setIsPasswordVisible(!isPasswordVisible)}
       >
-        {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+        {isPasswordVisible ? (
+          <AiOutlineEyeInvisible fontSize="1.4rem" />
+        ) : (
+          <AiOutlineEye fontSize="1.4rem" />
+        )}
       </div>
     </Container>
   );

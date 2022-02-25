@@ -55,6 +55,11 @@ const Container = styled.form`
 
       color: white;
       background-color: var(--blue-500);
+
+      transition: 0.2s ease filter;
+      &:hover {
+        filter: brightness(1.3);
+      }
     }
   }
 `;

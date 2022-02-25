@@ -1,26 +1,26 @@
 import { createContext, ReactNode, useState } from "react";
 
-import { IUser } from "../../types";
+import { IRequest } from "../../types";
 
-interface IAuthContext {
-  user: IUser | null;
-  setUser: (user: IUser | null) => void;
+interface IClientsContext {
+  requests: IRequest[];
+  setRequests: (requests: IRequest[]) => void;
 }
 
-const AuthContext = createContext({} as IAuthContext);
+const AuthContext = createContext({} as IClientsContext);
 
 interface IAuthProps {
   children: ReactNode;
 }
 
 const AuthProvider = ({ children }: IAuthProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [requests, setRequests] = useState<IRequest[]>([]);
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        setUser,
+        requests,
+        setRequests,
       }}
     >
       {children}

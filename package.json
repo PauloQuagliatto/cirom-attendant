@@ -63,6 +63,7 @@
     "@react-pdf/renderer": "^2.1.1",
     "@supabase/supabase-js": "^1.30.6",
     "file-saver": "^2.0.5",
+    "firebase": "^9.6.7",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
