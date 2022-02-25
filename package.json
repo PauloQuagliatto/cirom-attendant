@@ -2,19 +2,25 @@
   "name": "cirom",
   "private": true,
   "version": "0.0.0",
-  "main": "electron.js",
-  "description": "Electron-React App para fins do advogado Paulo Felix",
+  "main": "main.js",
+  "description": "Electron-React App para fins da empresa CIROM",
   "author": "Paulo Miranda Quagliatto",
   "homepage": "./",
   "build": {
-    "productName": "Acompanhador de Processos",
-    "appId": "acompanhamento.de.processos",
+    "productName": "Cirom",
+    "appId": "cirom.attendant.app",
     "files": [
-      "./dist/**/*"
+      "./dist/**/*",
+      "./main.js"
     ],
+    "extraMetadata": {
+      "main": "main.js"
+    },
+    "directories": {
+      "output": "./build"
+    },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "icon": "assets/icon.png",
       "hardenedRuntime": true,
       "gatekeeperAssess": false
     },
@@ -33,7 +39,6 @@
       ]
     },
     "win": {
-      "icon": "assets/icon.png",
       "target": [
         "nsis"
       ]
@@ -45,9 +50,6 @@
         "AppImage"
       ],
       "category": "Development"
-    },
-    "directories": {
-      "buildResources": "assets"
     }
   },
   "scripts": {
@@ -55,7 +57,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "make:win": "electron-builder --win --x64",
-    "dev": "concurrently \"electron .\" \"cross-env npm run start\""
+    "electron:start": "electron ."
   },
   "dependencies": {
     "@react-pdf/renderer": "^2.1.1",
@@ -72,13 +74,9 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",
-    "concurrently": "^7.0.0",
-    "cross-env": "^7.0.3",
     "electron": "^17.1.0",
     "electron-builder": "^22.14.13",
-    "electron-is-dev": "^2.0.0",
     "typescript": "^4.5.4",
-    "vite": "^2.8.0",
-    "wait-on": "^6.0.1"
+    "vite": "^2.8.0"
   }
 }
