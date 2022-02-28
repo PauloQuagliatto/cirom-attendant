@@ -32,7 +32,7 @@ export interface IDentist {
 
 export interface IRequest {
   id: string;
-  os: string;
+  os: number;
   clientId: string;
   services: {
     serviceId: string;
