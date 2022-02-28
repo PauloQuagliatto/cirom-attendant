@@ -2,6 +2,10 @@ import { Routes, Route } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
 
+import { DentistsProvider } from "../context/DentistsContext";
+import { ClientsProvider } from "../context/ClientsContext";
+import { RequestsProvider } from "../context/RequestsContext";
+
 import LoginPage from "../pages/LoginPage";
 import Dashboard from "../pages/Dashboard";
 
@@ -12,9 +16,15 @@ const AppRoutes = () => {
       <Route
         path="/dashboard"
         element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
+          <PrivateRoute>
+            <DentistsProvider>
+              <ClientsProvider>
+                <RequestsProvider>
+                  <Dashboard />
+                </RequestsProvider>
+              </ClientsProvider>
+            </DentistsProvider>
+          </PrivateRoute>
         }
       />
     </Routes>

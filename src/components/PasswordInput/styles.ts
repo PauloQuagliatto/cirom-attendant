@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
-const Container = styled.div`
-  width: 80%;
+interface IProps {
+  width: string;
+}
+
+const Container = styled.div<IProps>`
+  width: ${(props) => props.width};
   display: flex;
   flex-direction: row;
   justify-content: space-between;

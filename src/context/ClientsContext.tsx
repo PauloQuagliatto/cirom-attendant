@@ -1,4 +1,7 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { getDocs, collection } from "firebase/firestore";
+
+import { db } from "../services/firebase";
 
 import { IClient } from "../../types";
 
@@ -16,6 +19,22 @@ interface IAuthProps {
 const ClientsProvider = ({ children }: IAuthProps) => {
   const [clients, setClients] = useState<IClient[]>([]);
 
+  const getClients = async () => {
+    const querySnapshot = await getDocs(collection(db, "clients"));
+
+    const dbClients: any = [];
+
+    querySnapshot.forEach((doc) => {
+      dbClients.push(doc.data());
+    });
+
+    setClients(dbClients as IClient[]);
+  };
+
+  useEffect(() => {
+    getClients();
+  }, []);
+  
   return (
     <ClientsContext.Provider
       value={{

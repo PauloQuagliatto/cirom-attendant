@@ -6,12 +6,13 @@ import Container from "./styles";
 interface IProps {
   password: string;
   setPassword: (password: string) => void;
+  width: string;
 }
 
-const PasswordInput = ({ password, setPassword }: IProps) => {
+const PasswordInput = ({ password, setPassword, width }: IProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   return (
-    <Container>
+    <Container width={width}>
       <input
         type={isPasswordVisible ? "text" : "password"}
         value={password}

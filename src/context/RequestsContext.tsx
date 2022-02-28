@@ -1,31 +1,50 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { getDocs, collection } from "firebase/firestore";
+
+import { db } from "../services/firebase";
 
 import { IRequest } from "../../types";
 
-interface IClientsContext {
-  requests: IRequest[];
-  setRequests: (requests: IRequest[]) => void;
+interface IRequestsContext {
+  requests: IRequest[] | null;
+  setRequests: (requests: IRequest[] | null) => void;
 }
 
-const AuthContext = createContext({} as IClientsContext);
+const RequestsContext = createContext({} as IRequestsContext);
 
-interface IAuthProps {
+interface IRequestsProps {
   children: ReactNode;
 }
 
-const AuthProvider = ({ children }: IAuthProps) => {
-  const [requests, setRequests] = useState<IRequest[]>([]);
+const RequestsProvider = ({ children }: IRequestsProps) => {
+  const [requests, setRequests] = useState<IRequest[] | null>(null);
+
+  const getRequests = async () => {
+    const snapshot = await getDocs(collection(db, "requests"));
+
+    const dbRequests: any = [];
+
+    snapshot.forEach((doc) => {
+      dbRequests.push(doc.data());
+    });
+
+    setRequests(dbRequests as IRequest[]);
+  };
+
+  useEffect(() => {
+    getRequests();
+  }, []);
 
   return (
-    <AuthContext.Provider
+    <RequestsContext.Provider
       value={{
         requests,
         setRequests,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </RequestsContext.Provider>
   );
 };
 
-export { AuthContext, AuthProvider };
+export { RequestsContext, RequestsProvider };

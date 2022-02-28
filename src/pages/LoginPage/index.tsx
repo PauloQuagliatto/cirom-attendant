@@ -7,29 +7,34 @@ import PasswordInput from "../../components/PasswordInput";
 import Container from "./styles";
 
 const LoginPage = () => {
-  const [user, setUser] = useState("");
+  const { handleLogin } = useAuth();
+
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const { handleLogin } = useAuth();
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    handleLogin(user, password);
+    handleLogin(userName, password);
   };
 
   return (
     <Container onSubmit={onSubmit}>
       <div className="form-items-container">
         <div className="form-row">
-          <label>Email:</label>
+          <label>Usuário:</label>
           <input
             type="text"
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value.toUpperCase())}
           />
         </div>
         <div className="form-row">
           <label>Senha:</label>
-          <PasswordInput password={password} setPassword={setPassword} />
+          <PasswordInput
+            password={password}
+            setPassword={setPassword}
+            width={"80%"}
+          />
         </div>
         <button type="submit">Entrar</button>
       </div>

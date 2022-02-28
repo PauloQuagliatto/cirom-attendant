@@ -7,10 +7,10 @@ interface IProps {
 }
 
 const PrivateRoute = ({ children }: IProps) => {
-  const { auth } = useAuth();
+  const { auth, user } = useAuth();
   const location = useLocation();
 
-  if (!auth) {
+  if (!auth && !user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
