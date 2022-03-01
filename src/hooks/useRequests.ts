@@ -1,12 +1,5 @@
 import { useContext } from "react";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
 
 import { RequestsContext } from "../context/RequestsContext";
 import { db } from "../services/firebase";
@@ -15,7 +8,7 @@ import { IRequest } from "../../types";
 
 type NewRequest = Omit<IRequest, "id">;
 
-const useAuth = () => {
+const useRequests = () => {
   const { requests, setRequests } = useContext(RequestsContext);
   const requestsRef = collection(db, "requests");
 
@@ -30,7 +23,7 @@ const useAuth = () => {
   };
 
   const updateRequest = async (update: IRequest) => {
-    await updateDoc(doc(requestsRef), { ...update });
+    await setDoc(doc(db, "requests", update.id), { ...update });
 
     const updatedRequests: any = [];
 
@@ -47,7 +40,8 @@ const useAuth = () => {
 
     setRequests(updatedRequests as IRequest[]);
   };
+
   return { requests, addRequest, updateRequest };
 };
 
-export default useAuth;
+export default useRequests;

@@ -25,7 +25,14 @@ const RequestsProvider = ({ children }: IRequestsProps) => {
     const dbRequests: any = [];
 
     snapshot.forEach((doc) => {
-      dbRequests.push(doc.data());
+      const data = doc.data();
+      
+      const request = {
+        id: doc.id,
+        ...data
+      }
+
+      dbRequests.push(request as IRequest);
     });
 
     setRequests(dbRequests as IRequest[]);

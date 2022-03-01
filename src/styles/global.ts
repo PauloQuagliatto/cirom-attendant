@@ -50,6 +50,55 @@ const GlobalStyle = createGlobalStyle`
             color: white;
         }
     }
+
+    
+ .react-modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .react-modal-content {
+    overflow-y: auto;
+    width: 100%;
+    max-width:1000px;
+    background-color: white;
+    padding: 3rem;
+    position: relative;
+    border-radius: 0.25rem;
+ }
+
+ .react-modal-content-spinner {
+    overflow-y: auto;
+    width: 100%;
+    max-width: 576px;
+    position: relative;
+ }
+
+ .react-modal-close {
+     position: absolute;
+     right: 1.5rem;
+     top: 1.5rem;
+     display: flex;
+     align-items: center;
+     border: 0;
+     border-radius: 8px;
+     background: transparent;
+
+     transition: 0.2s ease;
+
+     &:hover {
+         background-color: var(--white-300);
+     }
+ }
 `;
 
 export default GlobalStyle;

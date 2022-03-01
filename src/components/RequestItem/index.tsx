@@ -28,7 +28,7 @@ const RequestItem = ({ request }: IProps) => {
           }
         </>
         <MdAddPhotoAlternate color="#407ceb" fontSize="80px" />
-        <h3>OS: {request.os}</h3>
+        <h3>OS: {request.clientId}</h3>
         <div className="service-status"></div>
         <div className="functional-icon">
           <MdKeyboardArrowDown fontSize="1.6rem" />

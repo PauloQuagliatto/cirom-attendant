@@ -6,7 +6,7 @@ import Container from "./styles";
 
 const RequestsList = () => {
   const { requests } = useRequests();
-  console.log("pedidos: " + requests);
+  
   return (
     <Container>
       {requests &&
