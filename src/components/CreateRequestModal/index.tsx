@@ -14,6 +14,16 @@ interface IProps {
 }
 
 const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
+  const [step, setStep] = useState(1);
+
+  const increaseStep = () => {
+    setStep(step + 1);
+  };
+
+  const decreaseStep = () => {
+    setStep(step - 1);
+  };
+
   const onRequestClose = () => {
     setIsOpen(false);
   };
@@ -25,6 +35,7 @@ const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -41,10 +52,20 @@ const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
         <IoMdClose color="black" fontSize="1.8em" />
       </button>
       <Form onSubmit={onSubmit}>
-        <UserForm increaseStep={increaseStep} />
-        <DentistForm increaseStep={increaseStep} />
-        <ServicesForm increaseStep={increaseStep} />
-        <PaymentsForm onSubmit={onSubmit} />
+        {step === 1 && <UserForm increaseStep={increaseStep} />}
+        {step === 2 && (
+          <DentistForm
+            decreaseStep={decreaseStep}
+            increaseStep={increaseStep}
+          />
+        )}
+        {step === 3 && (
+          <ServicesForm
+            decreaseStep={decreaseStep}
+            increaseStep={increaseStep}
+          />
+        )}
+        {step === 4 && <PaymentsForm decreaseStep={decreaseStep} />}
       </Form>
     </Modal>
   );

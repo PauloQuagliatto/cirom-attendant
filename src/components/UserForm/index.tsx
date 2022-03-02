@@ -4,7 +4,11 @@ import { MdAddPhotoAlternate } from "react-icons/md";
 import useClients from "../../hooks/useClients";
 import useImage from "../../hooks/useImage";
 
-const UserForm = () => {
+interface IProps {
+  increaseStep: (step: number) => void;
+}
+
+const UserForm = ({ increaseStep }: IProps) => {
   const { addClient } = useClients();
   const { uploadProfileImage } = useImage();
   const [profilePic, setProfilePic] = useState<File>();
@@ -42,7 +46,7 @@ const UserForm = () => {
       uploadProfileImage(id, profilePic);
     }
   };
-  
+
   return (
     <div>
       <div id="photo-input">
