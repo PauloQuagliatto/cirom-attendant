@@ -2,6 +2,7 @@ import { deleteObject, getMetadata, ref, uploadBytes } from "firebase/storage";
 import { fbStorage } from "../services/firebase";
 
 const useImage = () => {
+  
   const getProfileImage = async (id: string) => {
     const profileRef = ref(fbStorage, `profile/${id}.jpg`);
 
