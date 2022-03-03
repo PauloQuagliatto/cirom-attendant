@@ -6,12 +6,13 @@ export interface IClient {
   phone: string;
   email: string;
   address: {
+    zip: string;
     street: string;
     addressNumber: string;
-    cep: string;
+    complement: string;
+    district: string;
     city: string;
     uf: string;
-    complement: string;
   };
 }
 
