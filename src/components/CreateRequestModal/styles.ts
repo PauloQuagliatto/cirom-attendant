@@ -4,7 +4,18 @@ const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: align-center;
+  justify-content: center;
+  align-items: flex-start;
+
+  .bottom-navigation {
+    width: 95%;
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 export default Form;

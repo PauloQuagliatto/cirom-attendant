@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-  MdAddPhotoAlternate,
-  MdOutlineKeyboardArrowRight,
-} from "react-icons/md";
+import { MdOutlineKeyboardArrowRight, MdOutlinePerson } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -10,6 +7,8 @@ import useClients from "../../hooks/useClients";
 import useImage from "../../hooks/useImage";
 
 import LabeledInput from "../LabeledInput";
+
+import Container from "./styles";
 
 interface IProps {
   increaseStep: () => void;
@@ -71,7 +70,7 @@ const UserForm = ({ increaseStep }: IProps) => {
   };
 
   return (
-    <div>
+    <Container>
       <div id="photo-input">
         <label id="image-picker-label" htmlFor="image-picker">
           {profilePic ? (
@@ -83,7 +82,9 @@ const UserForm = ({ increaseStep }: IProps) => {
               border-radius="8px"
             />
           ) : (
-            <MdAddPhotoAlternate color="#242c9b" fontSize="80px" />
+            <div className="no-image">
+              <MdOutlinePerson color="#3e49e7" fontSize="80px" />
+            </div>
           )}
         </label>
         <input
@@ -138,10 +139,13 @@ const UserForm = ({ increaseStep }: IProps) => {
       />
       <LabeledInput title={"Cidade"} value={city} onChangeFunction={setCity} />
       <LabeledInput title={"Estado"} value={uf} onChangeFunction={setUf} />
-      <div className="functional-icon" onClick={increaseStep}>
-        <MdOutlineKeyboardArrowRight />
+      <div className="bottom-navigation">
+        <div></div>
+        <div className="functional-icon" onClick={increaseStep}>
+          <MdOutlineKeyboardArrowRight color="black" fontSize="1.3em" />
+        </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

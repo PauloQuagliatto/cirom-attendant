@@ -69,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
  .react-modal-content {
     overflow-y: auto;
     width: 100%;
-    max-width:1000px;
+    max-width: 1000px;
     background-color: white;
     padding: 3rem;
     position: relative;

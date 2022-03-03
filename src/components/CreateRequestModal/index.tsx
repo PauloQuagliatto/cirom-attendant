@@ -25,6 +25,7 @@ const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
   };
 
   const onRequestClose = () => {
+    setStep(1);
     setIsOpen(false);
   };
 
