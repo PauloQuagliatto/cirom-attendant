@@ -47,6 +47,7 @@ export interface IRequest {
   }[];
   attendantId: string;
   status: string;
+  createdAt: number;
 }
 
 export interface IUser {

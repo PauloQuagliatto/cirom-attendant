@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowRight, MdOutlinePerson } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -7,16 +7,21 @@ import useClients from "../../hooks/useClients";
 import useImage from "../../hooks/useImage";
 
 import LabeledInput from "../LabeledInput";
+import SearchableInput from "../SeachableInput";
 
 import Container from "./styles";
 
+import { IClient } from "../../../types";
+
 interface IProps {
   increaseStep: () => void;
+  setClientId: (id: string) => void;
 }
 
-const UserForm = ({ increaseStep }: IProps) => {
+const UserForm = ({ increaseStep, setClientId }: IProps) => {
   const { addClient } = useClients();
   const { uploadProfileImage } = useImage();
+  const [client, setClient] = useState<IClient | null>();
   const [profilePic, setProfilePic] = useState<File>();
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
   const [name, setName] = useState("");
@@ -31,6 +36,36 @@ const UserForm = ({ increaseStep }: IProps) => {
   const [complement, setComplement] = useState("");
   const [city, setCity] = useState("");
   const [uf, setUf] = useState("");
+
+  useEffect(() => {
+    if (client) {
+      setName(client.name);
+      setCpf(client.cpf);
+      setEmail(client.email);
+      setCellphone(client.cellphone);
+      setPhone(client.phone);
+      setZip(client.address.zip);
+      setStreet(client.address.street);
+      setDistrict(client.address.district);
+      setAddressNumber(client.address.addressNumber);
+      setComplement(client.address.complement);
+      setCity(client.address.city);
+      setUf(client.address.uf);
+    } else {
+      setName("");
+      setCpf("");
+      setEmail("");
+      setCellphone("");
+      setPhone("");
+      setZip("");
+      setStreet("");
+      setDistrict("");
+      setAddressNumber("");
+      setComplement("");
+      setCity("");
+      setUf("");
+    }
+  }, [client]);
 
   const imagePreviewHandler = async (e: any) => {
     setImagePreviewUrl(URL.createObjectURL(e.target.files[0]));
@@ -67,6 +102,19 @@ const UserForm = ({ increaseStep }: IProps) => {
     if (profilePic) {
       uploadProfileImage(id, profilePic);
     }
+
+    return id;
+  };
+
+  const checkAndNextStep = async () => {
+    if (client) {
+      setClientId(client.id);
+      increaseStep();
+    } else {
+      const clientId = await createClient();
+      setClientId(clientId);
+      increaseStep();
+    }
   };
 
   return (
@@ -99,7 +147,12 @@ const UserForm = ({ increaseStep }: IProps) => {
         />
       </div>
       <LabeledInput title={"Nome"} value={name} onChangeFunction={setName} />
-      <LabeledInput title={"CPF"} value={cpf} onChangeFunction={setCpf} />
+      <SearchableInput
+        title={"CPF"}
+        value={cpf}
+        onChangeFunction={setCpf}
+        onSetFunction={setClient}
+      />
       <LabeledInput
         title={"E-Mail"}
         value={email}
@@ -141,7 +194,7 @@ const UserForm = ({ increaseStep }: IProps) => {
       <LabeledInput title={"Estado"} value={uf} onChangeFunction={setUf} />
       <div className="bottom-navigation">
         <div></div>
-        <div className="functional-icon" onClick={increaseStep}>
+        <div className="functional-icon" onClick={checkAndNextStep}>
           <MdOutlineKeyboardArrowRight color="black" fontSize="1.3em" />
         </div>
       </div>

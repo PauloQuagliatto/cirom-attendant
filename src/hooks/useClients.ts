@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
 
 import { ClientsContext } from "../context/ClientsContext";
 import { db } from "../services/firebase";
@@ -11,6 +11,17 @@ type NewClient = Omit<IClient, "id">;
 const useAuth = () => {
   const { clients, setClients } = useContext(ClientsContext);
 
+  const getClients = async () => {
+    const querySnapshot = await getDocs(collection(db, "clients"));
+
+    const dbClients: any = [];
+
+    querySnapshot.forEach((doc) => {
+      dbClients.push(doc.data());
+    });
+
+    setClients(dbClients as IClient[]);
+  };
   const addClient = async (client: NewClient) => {
     const dbClient = await addDoc(collection(db, "clients"), client);
     const newClient = { id: dbClient.id, ...client };
@@ -41,6 +52,7 @@ const useAuth = () => {
   return {
     clients,
     addClient,
+    getClients,
     updateClient,
   };
 };

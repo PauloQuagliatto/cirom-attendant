@@ -15,6 +15,7 @@ interface IProps {
 
 const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
   const [step, setStep] = useState(1);
+  const [clientId, setClientId] = useState("");
 
   const increaseStep = () => {
     setStep(step + 1);
@@ -53,7 +54,7 @@ const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
         <IoMdClose color="black" fontSize="1.8em" />
       </button>
       <Form onSubmit={onSubmit}>
-        {step === 1 && <UserForm increaseStep={increaseStep} />}
+        {step === 1 && <UserForm setClientId={setClientId} increaseStep={increaseStep} />}
         {step === 2 && (
           <DentistForm
             decreaseStep={decreaseStep}

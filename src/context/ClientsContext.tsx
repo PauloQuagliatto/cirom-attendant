@@ -19,22 +19,6 @@ interface IAuthProps {
 const ClientsProvider = ({ children }: IAuthProps) => {
   const [clients, setClients] = useState<IClient[]>([]);
 
-  const getClients = async () => {
-    const querySnapshot = await getDocs(collection(db, "clients"));
-
-    const dbClients: any = [];
-
-    querySnapshot.forEach((doc) => {
-      dbClients.push(doc.data());
-    });
-
-    setClients(dbClients as IClient[]);
-  };
-
-  useEffect(() => {
-    getClients();
-  }, []);
-  
   return (
     <ClientsContext.Provider
       value={{

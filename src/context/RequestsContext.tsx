@@ -4,6 +4,7 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/firebase";
 
 import { IRequest } from "../../types";
+import moment from "moment";
 
 interface IRequestsContext {
   requests: IRequest[] | null;
@@ -26,13 +27,15 @@ const RequestsProvider = ({ children }: IRequestsProps) => {
 
     snapshot.forEach((doc) => {
       const data = doc.data();
-      
-      const request = {
-        id: doc.id,
-        ...data
-      }
+      const momentCreatedAt = moment(data.createdAt);
+      if (momentCreatedAt.isSame(moment(), "day")) {
+        const request = {
+          id: doc.id,
+          ...data,
+        };
 
-      dbRequests.push(request as IRequest);
+        dbRequests.push(request as IRequest);
+      }
     });
 
     setRequests(dbRequests as IRequest[]);
