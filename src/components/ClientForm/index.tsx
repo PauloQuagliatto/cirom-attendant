@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import moment from "moment";
 import { MdOutlineKeyboardArrowRight, MdOutlinePerson } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -8,6 +9,7 @@ import useImage from "../../hooks/useImage";
 
 import LabeledInput from "../LabeledInput";
 import ClientSearchInput from "../ClientSearchInput";
+import DatePicker from "../DatePicker";
 
 import Container from "./styles";
 
@@ -26,6 +28,7 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
+  const [birthdate, setBirthdate] = useState(moment().valueOf());
   const [email, setEmail] = useState("");
   const [cellphone, setCellphone] = useState("");
   const [phone, setPhone] = useState("");
@@ -123,6 +126,7 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
 
   return (
     <Container>
+      <h1>Cliente</h1>
       <div id="photo-input">
         <label id="image-picker-label" htmlFor="image-picker">
           {profilePic ? (
@@ -157,6 +161,7 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
         onChangeFunction={setCpf}
         onSetFunction={setClient}
       />
+      <DatePicker birthdate={birthdate} setBirthdate={setBirthdate} />
       <LabeledInput
         title={"E-Mail"}
         value={email}
