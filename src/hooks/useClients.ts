@@ -17,7 +17,13 @@ const useAuth = () => {
     const dbClients: any = [];
 
     querySnapshot.forEach((doc) => {
-      dbClients.push(doc.data());
+      const data = doc.data();
+      const dbClient = {
+        id: doc.id,
+        ...data,
+      };
+      
+      dbClients.push(dbClient);
     });
 
     setClients(dbClients as IClient[]);

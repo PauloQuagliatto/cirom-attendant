@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 
 import Form from "./styles";
-import UserForm from "../UserForm";
+import ClientForm from "../ClientForm";
 import DentistForm from "../DentistForm";
 import ServicesForm from "../ServicesForm";
 import PaymentsForm from "../PaymentsForm";
@@ -54,7 +54,9 @@ const CreateRequestModal = ({ isOpen, setIsOpen }: IProps) => {
         <IoMdClose color="black" fontSize="1.8em" />
       </button>
       <Form onSubmit={onSubmit}>
-        {step === 1 && <UserForm setClientId={setClientId} increaseStep={increaseStep} />}
+        {step === 1 && (
+          <ClientForm setClientId={setClientId} increaseStep={increaseStep} />
+        )}
         {step === 2 && (
           <DentistForm
             decreaseStep={decreaseStep}

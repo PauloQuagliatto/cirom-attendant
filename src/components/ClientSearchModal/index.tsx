@@ -8,6 +8,8 @@ import SpinnerModal from "../SpinnerModal";
 import { IClient } from "../../../types";
 import { IoMdClose } from "react-icons/io";
 
+import Container from "./styles";
+
 interface IProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -51,23 +53,28 @@ const ClientSearchModal = ({ isOpen, setIsOpen, setResult }: IProps) => {
         >
           <IoMdClose color="black" fontSize="1.8em" />
         </button>
-        <input
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value.toLowerCase())}
-        />
-        {clients.map((client) => {
-          if (
-            client.cpf.includes(searchValue) ||
-            client.name.toLowerCase().includes(searchValue)
-          ) {
-            return (
-              <div key={client.id} onClick={() => chooseClient(client)}>
-                <h3>{client.cpf}</h3>
-                <h3>{client.name}</h3>
-              </div>
-            );
-          }
-        })}
+        <Container>
+          <label>Digite Nome/CPF:</label>
+          <input
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value.toLowerCase())}
+          />
+          <div className="clients-wrapper">
+            {clients.map((client) => {
+              if (
+                client.cpf.includes(searchValue) ||
+                client.name.toLowerCase().includes(searchValue)
+              ) {
+                return (
+                  <div key={client.id} className="client-info" onClick={() => chooseClient(client)}>
+                    <h3>{client.cpf}</h3>
+                    <h3>{client.name}</h3>
+                  </div>
+                );
+              }
+            })}
+          </div>
+        </Container>
       </Modal>
       <SpinnerModal isOpen={isLoading} />
     </>

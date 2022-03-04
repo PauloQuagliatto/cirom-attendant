@@ -7,7 +7,7 @@ import useClients from "../../hooks/useClients";
 import useImage from "../../hooks/useImage";
 
 import LabeledInput from "../LabeledInput";
-import SearchableInput from "../SeachableInput";
+import ClientSearchInput from "../ClientSearchInput";
 
 import Container from "./styles";
 
@@ -18,7 +18,7 @@ interface IProps {
   setClientId: (id: string) => void;
 }
 
-const UserForm = ({ increaseStep, setClientId }: IProps) => {
+const ClientForm = ({ increaseStep, setClientId }: IProps) => {
   const { addClient } = useClients();
   const { uploadProfileImage } = useImage();
   const [client, setClient] = useState<IClient | null>();
@@ -73,17 +73,19 @@ const UserForm = ({ increaseStep, setClientId }: IProps) => {
   };
 
   const fillAddress = async () => {
-    try {
-      const res = await axios.get(`https://viacep.com.br/ws/${zip}/json/`);
-      const { logradouro, bairro, localidade, uf, complemento } = res.data;
+    if (zip) {
+      try {
+        const res = await axios.get(`https://viacep.com.br/ws/${zip}/json/`);
+        const { logradouro, bairro, localidade, uf, complemento } = res.data;
 
-      setStreet(logradouro);
-      setDistrict(bairro);
-      setCity(localidade);
-      setUf(uf);
-      setComplement(complemento);
-    } catch {
-      toast("Não foi possível encontrar CEP.");
+        setStreet(logradouro);
+        setDistrict(bairro);
+        setCity(localidade);
+        setUf(uf);
+        setComplement(complemento);
+      } catch {
+        toast("Não foi possível encontrar CEP.");
+      }
     }
   };
 
@@ -108,9 +110,11 @@ const UserForm = ({ increaseStep, setClientId }: IProps) => {
 
   const checkAndNextStep = async () => {
     if (client) {
+      console.log("não vai criar cliente");
       setClientId(client.id);
       increaseStep();
     } else {
+      console.log("vai criar cliente");
       const clientId = await createClient();
       setClientId(clientId);
       increaseStep();
@@ -147,7 +151,7 @@ const UserForm = ({ increaseStep, setClientId }: IProps) => {
         />
       </div>
       <LabeledInput title={"Nome"} value={name} onChangeFunction={setName} />
-      <SearchableInput
+      <ClientSearchInput
         title={"CPF"}
         value={cpf}
         onChangeFunction={setCpf}
@@ -202,4 +206,4 @@ const UserForm = ({ increaseStep, setClientId }: IProps) => {
   );
 };
 
-export default UserForm;
+export default ClientForm;

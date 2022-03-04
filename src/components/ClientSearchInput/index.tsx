@@ -11,7 +11,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   onSetFunction: (value: any) => void;
 }
 
-const SearchableInput = ({
+const ClientSearchInput = ({
   title,
   value,
   onChangeFunction,
@@ -44,4 +44,4 @@ const SearchableInput = ({
   );
 };
 
-export default SearchableInput;
+export default ClientSearchInput;
