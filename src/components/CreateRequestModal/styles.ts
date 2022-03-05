@@ -5,10 +5,11 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
   .bottom-navigation {
     width: 95%;
+    padding-left: 1rem;
     position: absolute;
     bottom: 1.5rem;
     left: 0;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import { MdOutlineKeyboardArrowRight, MdOutlinePerson } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -28,7 +28,9 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
-  const [birthdate, setBirthdate] = useState(moment().valueOf());
+  const [birthdate, setBirthdate] = useState<Moment>(moment());
+  const [momName, setMomName] = useState("");
+  const [dadName, setDadName] = useState("");
   const [email, setEmail] = useState("");
   const [cellphone, setCellphone] = useState("");
   const [phone, setPhone] = useState("");
@@ -40,10 +42,25 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
   const [city, setCity] = useState("");
   const [uf, setUf] = useState("");
 
+  const years = moment().diff(birthdate, "years");
+
   useEffect(() => {
     if (client) {
       setName(client.name);
       setCpf(client.cpf);
+
+      const birthTimeStamp = client.birthdate as any;
+      const birthToDate = birthTimeStamp.toDate();
+      setBirthdate(moment(birthToDate));
+
+      if (client.momName) {
+        setMomName(client.momName);
+      }
+
+      if (client.dadName) {
+        setDadName(client.dadName);
+      }
+
       setEmail(client.email);
       setCellphone(client.cellphone);
       setPhone(client.phone);
@@ -93,14 +110,44 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
   };
 
   const createClient = async () => {
-    const newClient = {
-      name,
-      cpf,
-      email,
-      cellphone,
-      phone,
-      address: { zip, street, addressNumber, district, city, uf, complement },
-    };
+    const newClient =
+      years < 18
+        ? {
+            name,
+            cpf,
+            birthdate: birthdate.valueOf(),
+            momName,
+            dadName,
+            email,
+            cellphone,
+            phone,
+            address: {
+              zip,
+              street,
+              addressNumber,
+              district,
+              city,
+              uf,
+              complement,
+            },
+          }
+        : {
+            name,
+            cpf,
+            birthdate: birthdate.valueOf(),
+            email,
+            cellphone,
+            phone,
+            address: {
+              zip,
+              street,
+              addressNumber,
+              district,
+              city,
+              uf,
+              complement,
+            },
+          };
 
     const id = await addClient(newClient);
 
@@ -113,11 +160,9 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
 
   const checkAndNextStep = async () => {
     if (client) {
-      console.log("não vai criar cliente");
       setClientId(client.id);
       increaseStep();
     } else {
-      console.log("vai criar cliente");
       const clientId = await createClient();
       setClientId(clientId);
       increaseStep();
@@ -162,6 +207,20 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
         onSetFunction={setClient}
       />
       <DatePicker birthdate={birthdate} setBirthdate={setBirthdate} />
+      {years < 18 && (
+        <>
+          <LabeledInput
+            title={"Nome da Mãe"}
+            value={momName}
+            onChangeFunction={setMomName}
+          />
+          <LabeledInput
+            title={"Nome do Pai"}
+            value={dadName}
+            onChangeFunction={setDadName}
+          />
+        </>
+      )}
       <LabeledInput
         title={"E-Mail"}
         value={email}

@@ -1,23 +1,22 @@
 import { InputHTMLAttributes } from "react";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import Container from "./styles";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
-  birthdate: number;
-  setBirthdate: (birthdate: number) => void;
+  birthdate: Moment;
+  setBirthdate: (birthdate: Moment) => void;
 }
 
 const DatePicker = ({ birthdate, setBirthdate }: IProps) => {
   const years = moment().diff(birthdate, "years");
-
+  
   return (
     <Container>
       <label>Data:</label>
       <input
         type="date"
-        onChange={(e) =>
-          setBirthdate(moment(e.target.value, "YYYY-MM-DD").valueOf())
-        }
+        value={birthdate ? birthdate.format("YYYY-MM-DD") : ""}
+        onChange={(e) => setBirthdate(moment(e.target.value))}
       />
       <label>Idade: {years} Anos</label>
     </Container>

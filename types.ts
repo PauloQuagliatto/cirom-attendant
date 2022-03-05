@@ -2,6 +2,9 @@ export interface IClient {
   id: string;
   name: string;
   cpf: string;
+  birthdate: number;
+  momName?: string;
+  dadName?: string;
   cellphone: string;
   phone: string;
   email: string;
