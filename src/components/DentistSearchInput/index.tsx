@@ -1,6 +1,7 @@
 import { InputHTMLAttributes, useState } from "react";
 import { BsSearch } from "react-icons/bs";
-import ClientSearchModal from "../ClientSearchModal";
+
+import DentistSearchModal from "../DentistSearchModal";
 
 import Container from "./styles";
 
@@ -35,7 +36,7 @@ const SearchDentistInput = ({
           <BsSearch />
         </div>
       </Container>
-      <ClientSearchModal
+      <DentistSearchModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         setResult={onSetFunction}

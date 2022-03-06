@@ -1,7 +1,13 @@
-import { useContext } from "react";
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { useState } from "react";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 
-import { ClientsContext } from "../context/ClientsContext";
 import { db } from "../services/firebase";
 
 import { IClient } from "../../types";
@@ -9,7 +15,7 @@ import { IClient } from "../../types";
 type NewClient = Omit<IClient, "id">;
 
 const useAuth = () => {
-  const { clients, setClients } = useContext(ClientsContext);
+  const [clients, setClients] = useState<IClient[]>([]);
 
   const getClients = async () => {
     const querySnapshot = await getDocs(collection(db, "clients"));
@@ -22,12 +28,29 @@ const useAuth = () => {
         id: doc.id,
         ...data,
       };
-      
+
       dbClients.push(dbClient);
     });
 
     setClients(dbClients as IClient[]);
   };
+
+  const getClient = async (id: string) => {
+    const docRef = doc(db, "clients", id);
+    const dbDoc = await getDoc(docRef);
+
+    const data = dbDoc.data();
+
+    let dbClient: any = {
+      id,
+      ...data,
+    };
+
+    console.log(dbClient);
+
+    return dbClient as IClient;
+  };
+
   const addClient = async (client: NewClient) => {
     const dbClient = await addDoc(collection(db, "clients"), client);
     const newClient = { id: dbClient.id, ...client };
@@ -58,6 +81,7 @@ const useAuth = () => {
   return {
     clients,
     addClient,
+    getClient,
     getClients,
     updateClient,
   };

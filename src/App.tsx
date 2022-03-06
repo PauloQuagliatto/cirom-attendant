@@ -3,7 +3,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./context/AuthContext";
-import { ClientsProvider } from "./context/ClientsContext";
 
 import AppRoutes from "./routes/AppRoutes";
 
@@ -14,11 +13,9 @@ const App = () => {
     <AuthProvider>
       <ToastContainer />
       <GlobalStyle />
-      <ClientsProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </ClientsProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
     </AuthProvider>
   );
 };

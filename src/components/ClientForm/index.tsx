@@ -17,11 +17,12 @@ import { IClient } from "../../../types";
 
 interface IProps {
   increaseStep: () => void;
+  clientId: string;
   setClientId: (id: string) => void;
 }
 
-const ClientForm = ({ increaseStep, setClientId }: IProps) => {
-  const { addClient } = useClients();
+const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
+  const { addClient, getClient } = useClients();
   const { uploadProfileImage } = useImage();
   const [client, setClient] = useState<IClient | null>();
   const [profilePic, setProfilePic] = useState<File>();
@@ -44,14 +45,22 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
 
   const years = moment().diff(birthdate, "years");
 
+  const checkForClient = async () => {
+    const dbClient = await getClient(clientId);
+    setClient(dbClient);
+  };
+
+  useEffect(() => {
+    if (clientId) {
+      checkForClient();
+    }
+  }, []);
+
   useEffect(() => {
     if (client) {
       setName(client.name);
       setCpf(client.cpf);
-
-      const birthTimeStamp = client.birthdate as any;
-      const birthToDate = birthTimeStamp.toDate();
-      setBirthdate(moment(birthToDate));
+      setBirthdate(moment(client.birthdate));
 
       if (client.momName) {
         setMomName(client.momName);
@@ -225,6 +234,7 @@ const ClientForm = ({ increaseStep, setClientId }: IProps) => {
         title={"E-Mail"}
         value={email}
         onChangeFunction={setEmail}
+        type="email"
       />
       <LabeledInput
         title={"Celular"}

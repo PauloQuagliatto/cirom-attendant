@@ -10,16 +10,28 @@ type NewRequest = Omit<IRequest, "id">;
 
 const useRequests = () => {
   const { requests, setRequests } = useContext(RequestsContext);
-  const requestsRef = collection(db, "requests");
 
   const addRequest = async (newRequest: NewRequest) => {
     try {
-      const dbRequest = await addDoc(requestsRef, newRequest);
+      const dbRequest = await addDoc(collection(db, "requests"), newRequest);
 
       setRequests([...requests!, { id: dbRequest.id, ...newRequest }]);
     } catch {
       console.log("deu Erro");
     }
+  };
+
+  const getLastOs = async () => {
+    const snapshot = await getDocs(collection(db, "requests"));
+
+    let lastOs = 0;
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      data.os > lastOs && (lastOs = data.os);
+    });
+
+    return lastOs as number;
   };
 
   const updateRequest = async (update: IRequest) => {
@@ -41,7 +53,7 @@ const useRequests = () => {
     setRequests(updatedRequests as IRequest[]);
   };
 
-  return { requests, addRequest, updateRequest };
+  return { requests, addRequest, getLastOs, updateRequest };
 };
 
 export default useRequests;

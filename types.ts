@@ -23,15 +23,24 @@ export interface IDentist {
   id: string;
   name: string;
   cro: string;
+  email: string;
+  phone: string;
   address: {
+    zip: string;
     street: string;
     addressNumber: string;
-    cep: string;
+    complement: string;
+    district: string;
     city: string;
     uf: string;
-    complement: string;
   };
   region: string;
+  discount: number;
+}
+
+export interface IPayment {
+  id: string;
+  name: string;
 }
 
 export interface IRequest {
@@ -39,7 +48,9 @@ export interface IRequest {
   os: number;
   clientId: string;
   services: {
-    serviceId: string;
+    id: string;
+    name: string;
+    price: number;
     status: string;
   }[];
   dentistId: string;
@@ -51,6 +62,12 @@ export interface IRequest {
   attendantId: string;
   status: string;
   createdAt: number;
+}
+
+export interface IService {
+  id: string;
+  name: string;
+  price: number;
 }
 
 export interface IUser {
