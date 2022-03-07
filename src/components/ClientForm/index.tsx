@@ -10,6 +10,7 @@ import useImage from "../../hooks/useImage";
 import LabeledInput from "../LabeledInput";
 import ClientSearchInput from "../ClientSearchInput";
 import DatePicker from "../DatePicker";
+import CameraModal from "../CameraModal";
 
 import Container from "./styles";
 
@@ -24,8 +25,9 @@ interface IProps {
 const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
   const { addClient, getClient } = useClients();
   const { uploadProfileImage } = useImage();
+
   const [client, setClient] = useState<IClient | null>();
-  const [profilePic, setProfilePic] = useState<File>();
+  const [isOpen, setIsOpen] = useState(false);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
@@ -96,11 +98,6 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
     }
   }, [client]);
 
-  const imagePreviewHandler = async (e: any) => {
-    setImagePreviewUrl(URL.createObjectURL(e.target.files[0]));
-    setProfilePic(e.target.files[0]);
-  };
-
   const fillAddress = async () => {
     if (zip) {
       try {
@@ -116,6 +113,23 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
         toast("Não foi possível encontrar CEP.");
       }
     }
+  };
+
+  const dataURItoBlob = (dataURI: string) => {
+    const byteString = atob(dataURI.split(",")[1]);
+
+    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+    const ab = new ArrayBuffer(byteString.length);
+
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    const blob = new Blob([ab], { type: mimeString });
+    return blob;
   };
 
   const createClient = async () => {
@@ -160,8 +174,8 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
 
     const id = await addClient(newClient);
 
-    if (profilePic) {
-      uploadProfileImage(id, profilePic);
+    if (imagePreviewUrl) {
+      uploadProfileImage(id, imagePreviewUrl);
     }
 
     return id;
@@ -170,6 +184,9 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
   const checkAndNextStep = async () => {
     if (client) {
       setClientId(client.id);
+      if (imagePreviewUrl) {
+        uploadProfileImage(client.id, imagePreviewUrl);
+      }
       increaseStep();
     } else {
       const clientId = await createClient();
@@ -179,104 +196,105 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
   };
 
   return (
-    <Container>
-      <h1>Cliente</h1>
-      <div id="photo-input">
-        <label id="image-picker-label" htmlFor="image-picker">
-          {profilePic ? (
-            <img
-              src={imagePreviewUrl}
-              alt="food-image"
-              height="100%"
-              width="100%"
-              border-radius="8px"
-            />
+    <>
+      <Container>
+        <h1>Cliente</h1>
+        <div id="image-picker-label">
+          {imagePreviewUrl ? (
+            <img src={imagePreviewUrl} onClick={() => setIsOpen(true)} />
           ) : (
             <div className="no-image">
-              <MdOutlinePerson color="#3e49e7" fontSize="80px" />
+              <MdOutlinePerson
+                color="#3e49e7"
+                fontSize="80px"
+                onClick={() => setIsOpen(true)}
+              />
             </div>
           )}
-        </label>
-        <input
-          id={"image-picker"}
-          type="file"
-          name="file"
-          onChange={imagePreviewHandler}
-          accept="image/jpeg"
-          style={{
-            display: "none",
-          }}
-        />
-      </div>
-      <LabeledInput title={"Nome"} value={name} onChangeFunction={setName} />
-      <ClientSearchInput
-        title={"CPF"}
-        value={cpf}
-        onChangeFunction={setCpf}
-        onSetFunction={setClient}
-      />
-      <DatePicker birthdate={birthdate} setBirthdate={setBirthdate} />
-      {years < 18 && (
-        <>
-          <LabeledInput
-            title={"Nome da Mãe"}
-            value={momName}
-            onChangeFunction={setMomName}
-          />
-          <LabeledInput
-            title={"Nome do Pai"}
-            value={dadName}
-            onChangeFunction={setDadName}
-          />
-        </>
-      )}
-      <LabeledInput
-        title={"E-Mail"}
-        value={email}
-        onChangeFunction={setEmail}
-        type="email"
-      />
-      <LabeledInput
-        title={"Celular"}
-        value={cellphone}
-        onChangeFunction={setCellphone}
-      />
-      <LabeledInput
-        title={"Telefone"}
-        value={phone}
-        onChangeFunction={setPhone}
-      />
-      <LabeledInput
-        title={"CEP"}
-        value={zip}
-        onChangeFunction={setZip}
-        onBlur={fillAddress}
-      />
-      <LabeledInput title={"Rua"} value={street} onChangeFunction={setStreet} />
-      <LabeledInput
-        title={"Bairro"}
-        value={district}
-        onChangeFunction={setDistrict}
-      />
-      <LabeledInput
-        title={"Número"}
-        value={addressNumber}
-        onChangeFunction={setAddressNumber}
-      />
-      <LabeledInput
-        title={"Complemento"}
-        value={complement}
-        onChangeFunction={setComplement}
-      />
-      <LabeledInput title={"Cidade"} value={city} onChangeFunction={setCity} />
-      <LabeledInput title={"Estado"} value={uf} onChangeFunction={setUf} />
-      <div className="bottom-navigation">
-        <div></div>
-        <div className="functional-icon" onClick={checkAndNextStep}>
-          <MdOutlineKeyboardArrowRight color="black" fontSize="1.3em" />
         </div>
-      </div>
-    </Container>
+        <LabeledInput title={"Nome"} value={name} onChangeFunction={setName} />
+        <ClientSearchInput
+          title={"CPF"}
+          value={cpf}
+          onChangeFunction={setCpf}
+          onSetFunction={setClient}
+        />
+        <DatePicker birthdate={birthdate} setBirthdate={setBirthdate} />
+        {years < 18 && (
+          <>
+            <LabeledInput
+              title={"Nome da Mãe"}
+              value={momName}
+              onChangeFunction={setMomName}
+            />
+            <LabeledInput
+              title={"Nome do Pai"}
+              value={dadName}
+              onChangeFunction={setDadName}
+            />
+          </>
+        )}
+        <LabeledInput
+          title={"E-Mail"}
+          value={email}
+          onChangeFunction={setEmail}
+          type="email"
+        />
+        <LabeledInput
+          title={"Celular"}
+          value={cellphone}
+          onChangeFunction={setCellphone}
+        />
+        <LabeledInput
+          title={"Telefone"}
+          value={phone}
+          onChangeFunction={setPhone}
+        />
+        <LabeledInput
+          title={"CEP"}
+          value={zip}
+          onChangeFunction={setZip}
+          onBlur={fillAddress}
+        />
+        <LabeledInput
+          title={"Rua"}
+          value={street}
+          onChangeFunction={setStreet}
+        />
+        <LabeledInput
+          title={"Bairro"}
+          value={district}
+          onChangeFunction={setDistrict}
+        />
+        <LabeledInput
+          title={"Número"}
+          value={addressNumber}
+          onChangeFunction={setAddressNumber}
+        />
+        <LabeledInput
+          title={"Complemento"}
+          value={complement}
+          onChangeFunction={setComplement}
+        />
+        <LabeledInput
+          title={"Cidade"}
+          value={city}
+          onChangeFunction={setCity}
+        />
+        <LabeledInput title={"Estado"} value={uf} onChangeFunction={setUf} />
+        <div className="bottom-navigation">
+          <div></div>
+          <div className="functional-icon" onClick={checkAndNextStep}>
+            <MdOutlineKeyboardArrowRight color="black" fontSize="1.3em" />
+          </div>
+        </div>
+      </Container>
+      <CameraModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setImagePreviewUrl={setImagePreviewUrl}
+      />
+    </>
   );
 };
 

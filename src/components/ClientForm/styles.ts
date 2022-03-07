@@ -16,6 +16,19 @@ const Container = styled.div`
     background-color: var(--white-300);
 
     border-radius: 50%;
+
+    cursor: pointer;
+  }
+
+  img {
+    max-width: 15rem;
+    max-height: 15rem;
+    padding: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
   }
 `;
 
