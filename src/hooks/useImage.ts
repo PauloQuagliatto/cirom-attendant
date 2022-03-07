@@ -14,7 +14,7 @@ const useImage = () => {
   };
 
   const uploadProfileImage = async (id: string, image: string) => {
-    const profileRef = ref(fbStorage, "/profile");
+    const profileRef = ref(fbStorage, `profile/${id}`);
     try {
       await uploadString(profileRef, image);
       console.log("deu upload");

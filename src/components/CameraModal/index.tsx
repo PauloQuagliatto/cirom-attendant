@@ -30,9 +30,18 @@ const CameraModal = ({ isOpen, setIsOpen, setImagePreviewUrl }: IProps) => {
     });
   };
 
+  const endVideo = () => {
+    navigator.mediaDevices.getUserMedia(CAPTURE_OPTIONS).then((stream) => {
+      stream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    });
+  };
   useEffect(() => {
     if (isOpen) {
       startVideo();
+    } else {
+      endVideo();
     }
   }, [isOpen, videoRef]);
 
