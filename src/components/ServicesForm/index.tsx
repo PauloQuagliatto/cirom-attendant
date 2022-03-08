@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
-
-import useServices from "../../hooks/useServices";
-
-import { IService } from "../../../types";
-
-import { Container, ServiceInfo } from "./styles";
 import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
+
+import useServices from "../../hooks/useServices";
+
+import ServiceInfo from "../ServiceInfo";
 import SpinnerModal from "../SpinnerModal";
+
+import { IService } from "../../../types";
+
+import Container from "./styles";
 
 interface IRequestService extends IService {
   status: string;
+  observation: string;
+  quantity: number;
 }
 
 interface IProps {
@@ -46,7 +50,11 @@ const ServicesForm = ({
     loadingAnimation();
   }, []);
 
-  const checkSelectedServices = (service: IService) => {
+  const checkSelectedServices = (
+    service: IService,
+    observation: string,
+    quantity: number
+  ) => {
     let hasService = false;
 
     selectedServices.map(({ id }) => {
@@ -59,7 +67,17 @@ const ServicesForm = ({
       );
       setServices(newServices);
     } else {
-      setServices([...selectedServices, { ...service, status: "faltando" }]);
+      const { price, ...serviceRest } = service;
+      setServices([
+        ...selectedServices,
+        {
+          ...serviceRest,
+          status: "faltando",
+          observation,
+          quantity,
+          price: price * quantity,
+        },
+      ]);
     }
   };
 
@@ -82,23 +100,10 @@ const ServicesForm = ({
             return (
               <ServiceInfo
                 key={service.id}
-                className="service-info"
+                service={service}
                 isSelected={isSelected}
-              >
-                <div className="check-wrapper">
-                  <div
-                    className="check-button"
-                    onClick={() => checkSelectedServices(service)}
-                  ></div>
-                  <h3>{service.name}</h3>
-                </div>
-                <h3>
-                  {new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  }).format(service.price)}
-                </h3>
-              </ServiceInfo>
+                checkSelectedServices={checkSelectedServices}
+              />
             );
           })}
         </div>

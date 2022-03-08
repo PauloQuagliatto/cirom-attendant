@@ -52,6 +52,8 @@ export interface IRequest {
     name: string;
     price: number;
     status: string;
+    observation: string;
+    quantity: number;
   }[];
   dentistId: string;
   convenantId?: string;
