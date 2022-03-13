@@ -46,8 +46,6 @@ const useAuth = () => {
       ...data,
     };
 
-    console.log(dbClient);
-
     return dbClient as IClient;
   };
 
