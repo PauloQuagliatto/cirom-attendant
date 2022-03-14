@@ -15,7 +15,7 @@ import Container from "./styles";
 
 interface IRequestService extends IService {
   status: string;
-  observation: string;
+  specifications: string[];
   quantity: number;
 }
 
@@ -36,6 +36,7 @@ const ServicesForm = ({
   const [isLoading, setIsLoading] = useState(false);
 
   let total = 0;
+
   selectedServices.forEach((service) => {
     total += service.price;
   });
@@ -52,7 +53,7 @@ const ServicesForm = ({
 
   const checkSelectedServices = (
     service: IService,
-    observation: string,
+    specifications: string[],
     quantity: number
   ) => {
     let hasService = false;
@@ -73,7 +74,7 @@ const ServicesForm = ({
         {
           ...serviceRest,
           status: "faltando",
-          observation,
+          specifications,
           quantity,
           price: price * quantity,
         },

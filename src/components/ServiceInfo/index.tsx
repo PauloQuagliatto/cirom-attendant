@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import { IService } from "../../../types";
+import SpecificationInput from "../SpecificationInput";
 
 import Container from "./styles";
 
@@ -8,7 +9,7 @@ interface IProps {
   service: IService;
   checkSelectedServices: (
     service: IService,
-    observation: string,
+    specifications: string[],
     quantity: number
   ) => void;
   isSelected: boolean;
@@ -19,14 +20,26 @@ const ServiceInfo = ({
   checkSelectedServices,
   isSelected,
 }: IProps) => {
-  const [observation, setObservation] = useState("");
-  const [quantity, setQuantity] = useState(0);
+  console.log(service.specifications);
+  const [specifications, setSpecifications] = useState<string[]>(
+    service.acceptSpecifications && service.specifications
+      ? service.specifications
+      : []
+  );
+  const [quantity, setQuantity] = useState(1);
+
+  const checkSpecification = (e: ChangeEvent<HTMLInputElement>) => {
+    setSpecifications([...specifications, e.target.value]);
+  };
+
   return (
     <Container className="service-info" isSelected={isSelected}>
       <div className="check-wrapper">
         <div
           className="check-button"
-          onClick={() => checkSelectedServices(service, observation, quantity)}
+          onClick={() =>
+            checkSelectedServices(service, specifications, quantity)
+          }
         ></div>
         <h3>{service.name}</h3>
       </div>
@@ -36,16 +49,25 @@ const ServiceInfo = ({
           currency: "BRL",
         }).format(service.price)}
       </h3>
-      <input
-        value={observation}
-        onChange={(e) => setObservation(e.target.value)}
-      />
-      {isSelected && (
-        <div>
-          <button onClick={() => setQuantity(quantity + 1)}> + </button>
-          <h4>{quantity}</h4>
-          <button onClick={() => setQuantity(quantity - 1)}> - </button>
-        </div>
+      {isSelected && service.acceptSpecifications && (
+        <>
+          <div className="buttons-container">
+            <button onClick={() => setQuantity(quantity + 1)}> + </button>
+            <button onClick={() => setQuantity(quantity - 1)}> - </button>
+          </div>
+
+          {specifications ? (
+            specifications.map((specification, index) => {
+              return (
+                <div key={index}>
+                  <SpecificationInput preSpecification={specification} />
+                </div>
+              );
+            })
+          ) : (
+            <SpecificationInput />
+          )}
+        </>
       )}
     </Container>
   );

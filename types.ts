@@ -70,6 +70,8 @@ export interface IService {
   id: string;
   name: string;
   price: number;
+  acceptSpecifications: boolean;
+  specifications?: string[];
 }
 
 export interface IUser {
