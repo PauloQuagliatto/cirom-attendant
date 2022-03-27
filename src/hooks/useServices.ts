@@ -9,7 +9,7 @@ const useServices = () => {
   const [services, setServices] = useState<IService[]>([]);
 
   const getServices = async () => {
-    const querySnapshot = await getDocs(collection(db, "services"));
+    const querySnapshot = await getDocs(collection(db, `${import.meta.env.VITE_APP_COMPANY_BRANCH}-services`));
 
     const dbServices: any = [];
 

@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
         --yellow-300: #EEE507;
 
         --red-300: #ec7878;
+        --red-500: #b42828;
     }
 
     * {
@@ -22,8 +23,38 @@ const GlobalStyle = createGlobalStyle`
         overflow: hidden;
     }
 
+    html {
+        @media (max-width: 1080px) {
+            font-size: 93.75%;
+         }
+    
+         @media (max-width: 720px) {
+             font-size: 67.5%;
+         }
+    }
+
     body {  
         font-family: 'Poppins';  
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+    h3 {
+        font-size: 18px;
+    }
+    h4 {
+        font-size: 16px;
+    }
+    h5 {
+        font-size: 14px;
+    }
+    h6 {
+        font-size: 12px;
     }
 
     input, label, textarea, select, option, li, button {
@@ -51,7 +82,14 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
-    
+  .icon-link {
+      color: white;
+      font-style: none;
+    &:visited {
+        color: white;
+    }
+  }  
+
  .react-modal-overlay {
     background: rgba(0, 0, 0, 0.5);
 

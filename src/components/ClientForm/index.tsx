@@ -9,7 +9,7 @@ import useImage from "../../hooks/useImage";
 
 import LabeledInput from "../LabeledInput";
 import ClientSearchInput from "../ClientSearchInput";
-import DatePicker from "../DatePicker";
+import BirthDatePicker from "../BirthDatePicker";
 import CameraModal from "../CameraModal";
 
 import Container from "./styles";
@@ -31,12 +31,12 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
   const [name, setName] = useState("");
   const [cpf, setCpf] = useState("");
-  const [birthdate, setBirthdate] = useState<Moment>(moment());
+  const [birthDate, setBirthDate] = useState<Moment>(moment());
   const [momName, setMomName] = useState("");
   const [dadName, setDadName] = useState("");
   const [email, setEmail] = useState("");
-  const [cellphone, setCellphone] = useState("");
   const [phone, setPhone] = useState("");
+  const [landline, setLandline] = useState("");
   const [zip, setZip] = useState("");
   const [street, setStreet] = useState("");
   const [district, setDistrict] = useState("");
@@ -45,7 +45,7 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
   const [city, setCity] = useState("");
   const [uf, setUf] = useState("");
 
-  const years = moment().diff(birthdate, "years");
+  const years = moment().diff(birthDate, "years");
 
   const checkForClient = async () => {
     const dbClient = await getClient(clientId);
@@ -62,19 +62,12 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
     if (client) {
       setName(client.name);
       setCpf(client.cpf);
-      setBirthdate(moment(client.birthdate));
-
-      if (client.momName) {
-        setMomName(client.momName);
-      }
-
-      if (client.dadName) {
-        setDadName(client.dadName);
-      }
-
+      setBirthDate(moment(client.birthDate));
+      setMomName(client.momName);
+      setDadName(client.dadName);
       setEmail(client.email);
-      setCellphone(client.cellphone);
       setPhone(client.phone);
+      setLandline(client.landline);
       setZip(client.address.zip);
       setStreet(client.address.street);
       setDistrict(client.address.district);
@@ -85,9 +78,10 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
     } else {
       setName("");
       setCpf("");
+      setBirthDate(moment());
       setEmail("");
-      setCellphone("");
       setPhone("");
+      setLandline("");
       setZip("");
       setStreet("");
       setDistrict("");
@@ -133,44 +127,25 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
   };
 
   const createClient = async () => {
-    const newClient =
-      years < 18
-        ? {
-            name,
-            cpf,
-            birthdate: birthdate.valueOf(),
-            momName,
-            dadName,
-            email,
-            cellphone,
-            phone,
-            address: {
-              zip,
-              street,
-              addressNumber,
-              district,
-              city,
-              uf,
-              complement,
-            },
-          }
-        : {
-            name,
-            cpf,
-            birthdate: birthdate.valueOf(),
-            email,
-            cellphone,
-            phone,
-            address: {
-              zip,
-              street,
-              addressNumber,
-              district,
-              city,
-              uf,
-              complement,
-            },
-          };
+    const newClient = {
+      name,
+      cpf,
+      birthDate: birthDate.valueOf(),
+      momName,
+      dadName,
+      email,
+      phone,
+      landline,
+      address: {
+        zip,
+        street,
+        addressNumber,
+        district,
+        city,
+        uf,
+        complement,
+      },
+    };
 
     const id = await addClient(newClient);
 
@@ -219,7 +194,7 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
           onChangeFunction={setCpf}
           onSetFunction={setClient}
         />
-        <DatePicker birthdate={birthdate} setBirthdate={setBirthdate} />
+        <BirthDatePicker birthDate={birthDate} setBirthDate={setBirthDate} />
         {years < 18 && (
           <>
             <LabeledInput
@@ -242,13 +217,13 @@ const ClientForm = ({ increaseStep, clientId, setClientId }: IProps) => {
         />
         <LabeledInput
           title={"Celular"}
-          value={cellphone}
-          onChangeFunction={setCellphone}
+          value={phone}
+          onChangeFunction={setPhone}
         />
         <LabeledInput
           title={"Telefone"}
-          value={phone}
-          onChangeFunction={setPhone}
+          value={landline}
+          onChangeFunction={setLandline}
         />
         <LabeledInput
           title={"CEP"}

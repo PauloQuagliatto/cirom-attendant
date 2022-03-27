@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  padding: 1.2rem;
+  padding: 0.8rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -18,6 +18,11 @@ const Container = styled.div`
 
     color: white;
     background-color: var(--red-300);
+
+    transition: 0.2s ease;
+    &:hover {
+      background-color: var(--red-500);
+    }
   }
 `;
 

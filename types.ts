@@ -2,11 +2,11 @@ export interface IClient {
   id: string;
   name: string;
   cpf: string;
-  birthdate: number;
-  momName?: string;
-  dadName?: string;
-  cellphone: string;
+  birthDate: number;
+  momName: string;
+  dadName: string;
   phone: string;
+  landline: string;
   email: string;
   address: {
     zip: string;
@@ -24,7 +24,7 @@ export interface IDentist {
   name: string;
   cro: string;
   email: string;
-  phone: string;
+  landline: string;
   address: {
     zip: string;
     street: string;
@@ -36,6 +36,12 @@ export interface IDentist {
   };
   region: string;
   discount: number;
+}
+
+export interface IHealthPlan {
+  id: string;
+  name: string;
+  isActive: boolean;
 }
 
 export interface IPayment {

@@ -13,7 +13,10 @@ const useRequests = () => {
 
   const addRequest = async (newRequest: NewRequest) => {
     try {
-      const dbRequest = await addDoc(collection(db, "requests"), newRequest);
+      const dbRequest = await addDoc(
+        collection(db, `${import.meta.env.VITE_APP_COMPANY_BRANCH}-requests`),
+        newRequest
+      );
 
       setRequests([...requests!, { id: dbRequest.id, ...newRequest }]);
     } catch {
@@ -35,7 +38,7 @@ const useRequests = () => {
   };
 
   const updateRequest = async (update: IRequest) => {
-    await setDoc(doc(db, "requests", update.id), { ...update });
+    await setDoc(doc(db, `${import.meta.env.VITE_APP_COMPANY_BRANCH}-requests`, update.id), { ...update });
 
     const updatedRequests: any = [];
 

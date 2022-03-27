@@ -2,10 +2,9 @@ import { Routes, Route } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
 
-import { RequestsProvider } from "../context/RequestsContext";
-
 import LoginPage from "../pages/LoginPage";
 import Dashboard from "../pages/Dashboard";
+import NewRequestPage from "../pages/NewRequestPage";
 
 const AppRoutes = () => {
   return (
@@ -15,9 +14,15 @@ const AppRoutes = () => {
         path="/dashboard"
         element={
           <PrivateRoute>
-            <RequestsProvider>
-              <Dashboard />
-            </RequestsProvider>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/new-request"
+        element={
+          <PrivateRoute>
+            <NewRequestPage />
           </PrivateRoute>
         }
       />

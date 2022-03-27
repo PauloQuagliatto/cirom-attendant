@@ -1,5 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 
+import Header from "../../components/Header";
+
 import useAuth from "../../hooks/useAuth";
 
 interface IProps {
@@ -7,14 +9,19 @@ interface IProps {
 }
 
 const PrivateRoute = ({ children }: IProps) => {
-  const { auth, user } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
 
-  if (!auth && !user) {
+  if (!user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  return children;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default PrivateRoute;
