@@ -12,8 +12,8 @@ import GlobalStyle from "./styles/global";
 const App = () => {
   return (
     <AuthProvider>
+    <ToastContainer />
       <RequestsProvider>
-        <ToastContainer />
         <GlobalStyle />
         <BrowserRouter>
           <AppRoutes />

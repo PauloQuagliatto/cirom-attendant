@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
+const isDev = require("electron-is-dev");
 
 let win;
 
@@ -13,8 +14,14 @@ const createWindow = () => {
       contextIsolation: false,
     },
   });
+
   win.setMenu(null);
-  win.loadFile("./dist/index.html");
+
+  isDev
+    ? win.loadURL("http://localhost:3000")
+    : win.loadFile("./dist/index.html");
+
+  isDev && win.webContents.openDevTools();
 };
 
 app.whenReady().then(createWindow);

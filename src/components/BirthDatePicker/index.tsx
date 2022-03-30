@@ -9,7 +9,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const BirthDatePicker = ({ birthDate, setBirthDate }: IProps) => {
   const years = moment().diff(birthDate, "years");
-  const months = moment().valueOf()
+  const months = moment().diff(birthDate, "months") - years * 12
   
   return (
     <Container>

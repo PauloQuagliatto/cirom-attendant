@@ -1,7 +1,4 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-
-import { fbAuth } from "../services/firebase";
 
 import { IUser } from "../../types";
 
