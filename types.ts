@@ -24,7 +24,7 @@ export interface IDentist {
   name: string;
   cro: string;
   email: string;
-  landline: string;
+  phone: string;
   address: {
     zip: string;
     street: string;

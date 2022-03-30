@@ -20,7 +20,6 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;  
         box-sizing: 0;
-        overflow: hidden;
     }
 
     html {
@@ -34,6 +33,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {  
+        overflow: hidden;
         font-family: 'Poppins';  
     }
 

@@ -33,7 +33,7 @@ const LoginPage = () => {
           <PasswordInput
             password={password}
             setPassword={setPassword}
-            width={"80%"}
+            width={"78%"}
           />
         </div>
         <button type="submit">Entrar</button>

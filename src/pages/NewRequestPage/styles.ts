@@ -1,7 +1,10 @@
 import styled from "styled-components";
 
 const Form = styled.form`
+  overflow: auto;
   width: 100%;
+  height: 700px;
+  padding: 0.8rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,10 +12,7 @@ const Form = styled.form`
 
   .bottom-navigation {
     width: 95%;
-    padding-left: 1rem;
-    position: absolute;
-    bottom: 1.5rem;
-    left: 0;
+    margin-top: 0.8rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

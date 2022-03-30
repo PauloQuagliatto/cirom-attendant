@@ -71,7 +71,7 @@ const NewRequestPage = () => {
   };
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} lang="pt-br">
       {step === 1 && (
         <ClientForm
           increaseStep={increaseStep}
