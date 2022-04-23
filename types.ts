@@ -76,8 +76,13 @@ export interface IService {
   id: string;
   name: string;
   price: number;
-  acceptSpecifications: boolean;
-  specifications?: string[];
+  hasObservation: boolean;
+  observations?: string[];
+}
+
+export interface IServiceCart extends IService {
+  quantity: number;
+  status: string;
 }
 
 export interface IUser {

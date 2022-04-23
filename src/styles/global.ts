@@ -32,8 +32,7 @@ const GlobalStyle = createGlobalStyle`
          }
     }
 
-    body {  
-        overflow: hidden;
+    body {
         font-family: 'Poppins';  
     }
 

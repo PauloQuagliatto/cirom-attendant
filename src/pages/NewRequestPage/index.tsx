@@ -6,7 +6,7 @@ import useRequests from "../../hooks/useRequests";
 
 import ClientForm from "../../components/ClientForm";
 import DentistForm from "../../components/DentistForm";
-import ServicesForm from "../../components/ServicesForm";
+import ServicesForm from "../../components/ServicesForm/ui";
 import PaymentsForm from "../../components/PaymentsForm";
 
 import { IPayment, IService } from "../../../types";
@@ -16,8 +16,7 @@ import { useNavigate } from "react-router-dom";
 
 interface IRequestService extends IService {
   status: string;
-  specifications: string[];
-  quantity: number;
+  observation?: string;
 }
 
 interface IRequestPayment extends IPayment {
@@ -92,7 +91,7 @@ const NewRequestPage = () => {
           decreaseStep={decreaseStep}
           increaseStep={increaseStep}
           selectedServices={services}
-          setServices={setServices}
+          setSelectedServices={setServices}
         />
       )}
       {step === 4 && (

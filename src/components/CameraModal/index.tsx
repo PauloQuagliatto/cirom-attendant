@@ -37,10 +37,13 @@ const CameraModal = ({ isOpen, setIsOpen, setImagePreviewUrl }: IProps) => {
       });
     });
   };
+
   useEffect(() => {
     if (isOpen) {
       startVideo();
-    } else {
+    }
+
+    return () => {
       endVideo();
     }
   }, [isOpen, videoRef]);

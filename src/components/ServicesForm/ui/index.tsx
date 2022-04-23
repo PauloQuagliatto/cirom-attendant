@@ -4,36 +4,31 @@ import {
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 
-import useServices from "../../hooks/useServices";
+import useServices from "../../../hooks/useServices";
 
-import ServiceInfo from "../ServiceInfo";
-import SpinnerModal from "../SpinnerModal";
+import ServiceInfo from "../components/ServiceInfo";
+import SpinnerModal from "../../SpinnerModal";
 
-import { IService } from "../../../types";
+import { IServiceCart } from "../../../../types";
 
 import Container from "./styles";
-
-interface IRequestService extends IService {
-  status: string;
-  specifications: string[];
-  quantity: number;
-}
 
 interface IProps {
   decreaseStep: () => void;
   increaseStep: () => void;
-  selectedServices: IRequestService[];
-  setServices: (services: IRequestService[]) => void;
+  selectedServices: IServiceCart[];
+  setSelectedServices: (services: IServiceCart[]) => void;
 }
 
 const ServicesForm = ({
   decreaseStep,
   increaseStep,
   selectedServices,
-  setServices,
+  setSelectedServices,
 }: IProps) => {
   const { services, getServices } = useServices();
   const [isLoading, setIsLoading] = useState(false);
+  const [chosenServices, setChosenServices] = useState<IRequestService[]>([]);
 
   let total = 0;
 
@@ -51,11 +46,7 @@ const ServicesForm = ({
     loadingAnimation();
   }, []);
 
-  const checkSelectedServices = (
-    service: IService,
-    specifications: string[],
-    quantity: number
-  ) => {
+  const checkSelectedServices = (service: IService) => {
     let hasService = false;
 
     selectedServices.map(({ id }) => {
@@ -66,19 +57,24 @@ const ServicesForm = ({
       const newServices = selectedServices.filter(
         ({ id }) => id !== service.id
       );
-      setServices(newServices);
+      setSelectedServices(newServices);
     } else {
-      const { price, ...serviceRest } = service;
-      setServices([
-        ...selectedServices,
-        {
-          ...serviceRest,
-          status: "faltando",
-          specifications,
-          quantity,
-          price: price * quantity,
-        },
-      ]);
+      service.hasObservation
+        ? setSelectedServices([
+            ...selectedServices,
+            {
+              ...service,
+              status: "faltando",
+              observation: "haha",
+            },
+          ])
+        : setSelectedServices([
+            ...selectedServices,
+            {
+              ...service,
+              status: "faltando",
+            },
+          ]);
     }
   };
 
@@ -104,6 +100,7 @@ const ServicesForm = ({
                 service={service}
                 isSelected={isSelected}
                 checkSelectedServices={checkSelectedServices}
+                setChosenServices={setChosenServices}
               />
             );
           })}

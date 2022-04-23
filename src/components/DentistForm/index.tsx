@@ -142,6 +142,7 @@ const DentistForm = ({
 
   return (
     <Container>
+      <h1>Dentista</h1>
       <DentistSearchInput
         title={"CRO"}
         value={cro}

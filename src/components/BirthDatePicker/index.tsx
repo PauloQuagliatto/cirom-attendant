@@ -19,6 +19,7 @@ const BirthDatePicker = ({ birthDate, setBirthDate }: IProps) => {
         type="date"
         value={birthDate ? birthDate.format("YYYY-MM-DD") : ""}
         onChange={(e) => setBirthDate(moment(e.target.value))}
+        pattern="\d{2}/\d{2}/\d{4}"
       />
       <label>
         Idade: {years} Anos e {months} meses
