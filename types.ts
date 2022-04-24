@@ -77,11 +77,11 @@ export interface IService {
   name: string;
   price: number;
   hasObservation: boolean;
-  observations?: string[];
+  observations: string[];
 }
 
 export interface IServiceCart extends IService {
-  quantity: number;
+  cartId: string;
   status: string;
 }
 

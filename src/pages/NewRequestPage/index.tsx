@@ -3,21 +3,17 @@ import moment from "moment";
 
 import useAuth from "../../hooks/useAuth";
 import useRequests from "../../hooks/useRequests";
+import useServiceCart from "../../hooks/useServiceCart";
 
 import ClientForm from "../../components/ClientForm";
 import DentistForm from "../../components/DentistForm";
 import ServicesForm from "../../components/ServicesForm/ui";
 import PaymentsForm from "../../components/PaymentsForm";
 
-import { IPayment, IService } from "../../../types";
+import { IPayment, IServiceCart } from "../../../types";
 
 import Form from "./styles";
 import { useNavigate } from "react-router-dom";
-
-interface IRequestService extends IService {
-  status: string;
-  observation?: string;
-}
 
 interface IRequestPayment extends IPayment {
   amount: number;
@@ -30,7 +26,7 @@ const NewRequestPage = () => {
   const [step, setStep] = useState(1);
   const [clientId, setClientId] = useState("");
   const [dentistId, setDentistId] = useState("");
-  const [services, setServices] = useState<IRequestService[]>([]);
+  const { servicesCart } = useServiceCart;
   const [payments, setPayments] = useState<IRequestPayment[]>([]);
 
   const increaseStep = () => {
@@ -56,7 +52,7 @@ const NewRequestPage = () => {
     const newRequest = {
       os: newOs + 1,
       clientId,
-      services,
+      servicesCart,
       dentistId,
       paymentMethods: payments,
       attendantId: user!.id,
@@ -90,8 +86,7 @@ const NewRequestPage = () => {
         <ServicesForm
           decreaseStep={decreaseStep}
           increaseStep={increaseStep}
-          selectedServices={services}
-          setSelectedServices={setServices}
+          servicesCart={servicesCart}
         />
       )}
       {step === 4 && (

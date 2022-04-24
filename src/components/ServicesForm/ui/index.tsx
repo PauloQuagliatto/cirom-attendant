@@ -5,34 +5,28 @@ import {
 } from "react-icons/md";
 
 import useServices from "../../../hooks/useServices";
+import useServiceCart from "../../../hooks/useServiceCart";
 
-import ServiceInfo from "../components/ServiceInfo";
+import ServiceInfo from "./blocks/ServiceInfo";
 import SpinnerModal from "../../SpinnerModal";
 
-import { IServiceCart } from "../../../../types";
+import { IService, IServiceCart } from "../../../../types";
 
 import Container from "./styles";
 
 interface IProps {
   decreaseStep: () => void;
   increaseStep: () => void;
-  selectedServices: IServiceCart[];
-  setSelectedServices: (services: IServiceCart[]) => void;
+  servicesCart: IServiceCart[];
 }
 
-const ServicesForm = ({
-  decreaseStep,
-  increaseStep,
-  selectedServices,
-  setSelectedServices,
-}: IProps) => {
+const ServicesForm = ({ decreaseStep, increaseStep, servicesCart }: IProps) => {
   const { services, getServices } = useServices();
   const [isLoading, setIsLoading] = useState(false);
-  const [chosenServices, setChosenServices] = useState<IRequestService[]>([]);
 
   let total = 0;
 
-  selectedServices.forEach((service) => {
+  servicesCart.forEach((service) => {
     total += service.price;
   });
 
@@ -46,40 +40,8 @@ const ServicesForm = ({
     loadingAnimation();
   }, []);
 
-  const checkSelectedServices = (service: IService) => {
-    let hasService = false;
-
-    selectedServices.map(({ id }) => {
-      id === service.id && (hasService = true);
-    });
-
-    if (hasService) {
-      const newServices = selectedServices.filter(
-        ({ id }) => id !== service.id
-      );
-      setSelectedServices(newServices);
-    } else {
-      service.hasObservation
-        ? setSelectedServices([
-            ...selectedServices,
-            {
-              ...service,
-              status: "faltando",
-              observation: "haha",
-            },
-          ])
-        : setSelectedServices([
-            ...selectedServices,
-            {
-              ...service,
-              status: "faltando",
-            },
-          ]);
-    }
-  };
-
   const checkAndNextStep = () => {
-    if (selectedServices.length > 0) {
+    if (servicesCart.length > 0) {
       increaseStep();
     }
   };
@@ -90,7 +52,7 @@ const ServicesForm = ({
         <div className="services-wrapper">
           {services.map((service) => {
             let isSelected = false;
-            selectedServices.map(
+            servicesCart.map(
               ({ id }) => id === service.id && (isSelected = true)
             );
 
@@ -99,8 +61,6 @@ const ServicesForm = ({
                 key={service.id}
                 service={service}
                 isSelected={isSelected}
-                checkSelectedServices={checkSelectedServices}
-                setChosenServices={setChosenServices}
               />
             );
           })}
